@@ -1,0 +1,118 @@
+<html lang="en">
+
+<head>
+    <title>Pumping Motors</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+    <style>
+        .card {
+            margin-bottom: 25px;
+            margin-left: 10px;
+            color: black;
+            text-decoration: none;
+        }
+
+        a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            color: #000000;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        nav {
+            color: cornflowerblue;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar ">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <h4>Pumping Motors</h4>
+            </div>
+        </div>
+    </nav>
+    <div id="mess" class="w3-panel w3-green">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>
+                <strong> {{ message }} </strong>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
+    </div>
+    <div align="center" id="result"></div>
+
+    <script>
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '679644138972-tuuvu9ij8885ftjp23tqsvf90vud8tmk.apps.googleusercontent.com'
+                });
+            });
+        }
+    </script>
+    <!--  Step 2: In the <body> tag, add the below button and div -->
+    <br><br><br>
+    <button id="signinButton" class="btn btn-info btn-sm">Google Signin</button>
+    <divid="result">
+        </div>
+        <!--  Step 3: Add the below script before the ending </body> tag -->
+        <script>
+            $('#signinButton').click(function () {
+                function signInCallback(authResult) {
+                    if (authResult['code']) {
+                        $('#signinButton').attr('style', 'display: none');
+                        $.ajax({
+                            type: 'POST',
+                            url: '/gconnect?state={{STATE}}',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            contentType: 'application/octet-stream; charset=utf-8',
+                            success: function (result) {
+                                $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+                                setTimeout(function () {
+                                    window.location.href = "/";
+                                }, 2000);
+                            },
+                            processData: false,
+                            data: authResult['code']
+                        });
+                    } else {
+                        // handle error
+                        console.log('There was an error: ' + authResult['error']);
+                        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                    }
+                }
+                auth2.grantOfflineAccess().then(signInCallback);
+            });
+        </script>
+</body>
+
+</html>

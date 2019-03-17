@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Add Motors</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <style>
+        .card {
+            margin-bottom: 25px;
+            margin-left: 10px;
+            color: black;
+            text-decoration: none;
+        }
+
+        a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            color: #000000;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        nav {
+            color: cornflowerblue;
+            margin-top: 15px;
+        }
+
+        h3 {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar ">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <h4>Pumping Motors</h4>
+            </div>
+
+            {% if not login['user_id'] %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            </ul>
+            {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            {% endif %}
+        </div>
+    </nav>
+    <a href="{{url_for('prodouct_type', item_id = item_id)}}"><i class="fa fa-hand-o-left"
+            style="font-size:30px;color:red;margin-left: 25px;margin-top:10px;"></i></a>
+    <br>
+    <div class="container" style="width: 30%">
+        <h3>Add new modal</h3>
+        <form action="{{url_for('spec_addItem', item_id = item_id)}}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="desc">Name/Description :</label>
+                <input type="text" class="form-control" name="desc" id="desc" required></div>
+            <div class="form-group">
+                <label for="desc">Price :</label>
+                <input type="number" name="price" class="form-control" required></div>
+            <div class="form-group">
+                <label for="">Pumping (in ltr/hr) :</label>
+                <input type="number" name="pumping" class="form-control" required><br>
+            </div>
+            <div class="form-group">
+                <label for="">Pressure :</label>
+                <input type="number" name="pressure" class="form-control" required></div>
+            <div class="form-group">
+                <label for="">Image Url:</label>
+                <input type="url" name="image" class="form-control" required>
+            </div>
+            <input type="submit" class="btn btn-outline-primary" value="submit">
+        </form>
+    </div>
+</body>
+
+</html>
